@@ -1,0 +1,21 @@
+main {
+    height: 100%;
+    width: 100%;
+
+    #hero-section {
+        width: 100%;
+        height: 100%;
+        position: relative;
+
+        video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+
+    #about{
+        width: 100%;
+        padding: 2rem;
+    }
+}

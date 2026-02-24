@@ -1,6 +1,7 @@
 import { BrowserRouter } from "react-router-dom"
 import Navbar from "./components/Navbar"
 import AppRouter from "./Routes/AppRouter"
+import "./global.scss"
 
 const App = () => {
   return (
