@@ -1,0 +1,16 @@
+import { BrowserRouter } from "react-router-dom"
+import Navbar from "./components/Navbar"
+import AppRouter from "./Routes/AppRouter"
+
+const App = () => {
+  return (
+    <>
+      <BrowserRouter>
+        <Navbar />
+        <AppRouter />
+      </BrowserRouter>
+    </>
+  )
+}
+
+export default App
