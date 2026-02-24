@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FoodieHub Ultimate</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --dark: #0f172a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f6f9fc;
+            color: #333;
+            transition: .4s;
+        }
+
+        body.dark {
+            background: #0f172a;
+            color: #eee;
+        }
+
+        section {
+            padding: 100px 8%;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            width: 100%;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.6);
+            z-index: 1000;
+        }
+
+        nav h1 {
+            color: var(--primary);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        nav ul li {
+            cursor: pointer;
+            position: relative;
+        }
+
+        nav ul li::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -5px;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: .3s;
+        }
+
+        nav ul li:hover::after {
+            width: 100%;
+        }
+
+        .toggle {
+            cursor: pointer;
+        }
+
+        /* HERO */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.4)),
+                url('https://images.unsplash.com/photo-1504674900247-0877df9cc836') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .hero h2 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero button {
+            padding: 14px 30px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(45deg, var(--primary), #ff758f);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .hero button:hover {
+            transform: scale(1.08);
+        }
+
+        /* GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+        }
+
+        /* CARDS */
+        .card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            transform: translateY(40px);
+            opacity: 0;
+            transition: .6s ease;
+        }
+
+        body.dark .card {
+            background: #1e293b;
+        }
+
+        .card.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 20px;
+        }
+
+        /* STATS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat-box {
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark .stat-box {
+            background: #1e293b;
+        }
+
+        .stat-box h3 {
+            color: var(--primary);
+            font-size: 2rem;
+        }
+
+        /* HOW IT WORKS */
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .step {
+            padding: 40px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        body.dark .step {
+            background: #1e293b;
+        }
+
+        /* FEATURE STRIP */
+        .highlight {
+            background: linear-gradient(45deg, var(--primary), #ff758f);
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        /* FAQ */
+        .faq-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .4s ease;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 40px;
+            background: #111;
+            color: white;
+        }
+
+        /* BACK TO TOP */
+        #topBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+        }
+
+        /* CREATE RECIPE */
+        .create-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        .create-form {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        body.dark .create-form {
+            background: #1e293b;
+        }
+
+        .create-form input,
+        .create-form select,
+        .create-form textarea {
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+        }
+
+        .create-form button {
+            padding: 14px;
+            border: none;
+            border-radius: 25px;
+            background: linear-gradient(45deg, var(--primary), #ff758f);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .create-form button:hover {
+            transform: scale(1.05);
+        }
+
+        /* AUTHOR SECTION */
+        .author-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            flex-wrap: wrap;
+        }
+
+        .author-image img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .author-content {
+            max-width: 500px;
+        }
+
+        .author-content h3 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .role {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .author-bio {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .skills {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .skills span {
+            padding: 8px 14px;
+            background: #eee;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        body.dark .skills span {
+            background: #1e293b;
+        }
+
+        .social-links a {
+            margin-right: 15px;
+            text-decoration: none;
+            font-weight: 600;
+            color: var(--primary);
+            transition: .3s;
+        }
+
+        .social-links a:hover {
+            opacity: 0.7;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:768px) {
+            .author-container {
+                text-align: center;
+            }
+        }
+
+        /* RESPONSIVE */
+        @media(max-width:768px) {
+            .hero h2 {
+                font-size: 2.3rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <h1>🍴 FoodieHub</h1>
+        <ul>
+            <li>Home</li>
+            <li>Recipes</li>
+            <li><a href="c.html">About</a></li>
+            <li>story</li>
+            <!-- <li>Contact</li> -->
+            <li>Favourites</li>
+        </ul>
+        <div class="toggle" id="darkToggle">Create Recipe</div>
+    </nav>
+
+    <div class="hero">
+        <h2>Cook Smarter. Eat Better.</h2>
+        <button>Explore Recipes</button>
+    </div>
+
+    <!-- ABOUT -->
+    <section>
+        <h2 class="section-title">About FoodieHub</h2>
+        <p style="text-align:center;max-width:800px;margin:auto;">
+            FoodieHub is built for passionate home cooks who want premium-quality recipes with a beautiful experience.
+        </p>
+    </section>
+
+    <!-- STATS -->
+    <section>
+        <h2 class="section-title">Our Impact</h2>
+        <div class="stats">
+            <div class="stat-box">
+                <h3 class="counter" data-target="500">0</h3>
+                <p>Recipes</p>
+            </div>
+            <div class="stat-box">
+                <h3 class="counter" data-target="120">0</h3>
+                <p>Chefs</p>
+            </div>
+            <div class="stat-box">
+                <h3 class="counter" data-target="120000">0</h3>
+                <p>Users</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section>
+        <h2 class="section-title">How It Works</h2>
+        <div class="steps">
+            <div class="step">
+                <h3>1️⃣ Browse</h3>
+                <p>Explore categories easily.</p>
+            </div>
+            <div class="step">
+                <h3>2️⃣ Cook</h3>
+                <p>Follow simple instructions.</p>
+            </div>
+            <div class="step">
+                <h3>3️⃣ Enjoy</h3>
+                <p>Share with family & friends.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRENDING -->
+    <div class="highlight">
+        <h2>🔥 Trending This Week</h2>
+        <p>Spicy Thai Noodles • Protein Pancakes • Vegan Buddha Bowl</p>
+    </div>
+
+    <!-- RECIPE GRID -->
+    <section>
+        <h2 class="section-title">Featured Recipes</h2>
+        <div class="grid">
+            <div class="card"><img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061">
+                <div class="card-content">
+                    <h3>Pancake Delight</h3>
+                </div>
+            </div>
+            <div class="card"><img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1">
+                <div class="card-content">
+                    <h3>Grilled Chicken</h3>
+                </div>
+            </div>
+            <div class="card"><img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092">
+                <div class="card-content">
+                    <h3>Italian Pasta</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <div class="faq-item">
+            <h3>Are recipes beginner-friendly?</h3>
+            <div class="faq-answer">
+                <p>Yes, all recipes include simple step-by-step instructions.</p>
+            </div>
+        </div>
+        <div class="faq-item">
+            <h3>Is FoodieHub free?</h3>
+            <div class="faq-answer">
+                <p>Yes, with optional premium content in the future.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CREATE RECIPE -->
+    <section>
+        <h2 class="section-title">Create Your Own Recipe</h2>
+
+        <div class="create-wrapper">
+            <form id="recipeForm" class="create-form">
+                <input type="text" id="recipeTitle" placeholder="Recipe Title" required>
+                <input type="text" id="recipeImage" placeholder="Image URL" required>
+
+                <select id="recipeCategory" required>
+                    <option value="">Select Category</option>
+                    <option>Breakfast</option>
+                    <option>Lunch</option>
+                    <option>Dinner</option>
+                    <option>Dessert</option>
+                </select>
+
+                <textarea id="recipeDescription" rows="4" placeholder="Short Description..." required></textarea>
+
+                <button type="submit">Add Recipe</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- AUTHOR SECTION -->
+    <section>
+        <h2 class="section-title">Meet The Creator</h2>
+
+        <div class="author-container">
+            <div class="author-image">
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde" alt="Author">
+            </div>
+
+            <div class="author-content card">
+                <h3>Your Name</h3>
+                <p class="role">Founder & Frontend Developer</p>
+
+                <p class="author-bio">
+                    I built FoodieHub to combine beautiful UI design with the joy of cooking.
+                    My focus is creating premium digital experiences that feel modern, smooth,
+                    and user-centered.
+                </p>
+
+                <div class="skills">
+                    <span>HTML</span>
+                    <span>CSS</span>
+                    <span>JavaScript</span>
+                    <span>UI/UX Design</span>
+                </div>
+
+                <div class="social-links">
+                    <a href="#">LinkedIn</a>
+                    <a href="#">GitHub</a>
+                    <a href="#">Portfolio</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        © 2026 FoodieHub Ultimate Experience
+    </footer>
+
+    <button id="topBtn">↑</button>
+
+    <script>
+
+        /* SCROLL REVEAL */
+        const cards = document.querySelectorAll('.card');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { entry.target.classList.add('show'); }
+            });
+        }, { threshold: 0.2 });
+        cards.forEach(card => observer.observe(card));
+
+        /* DARK MODE */
+        document.getElementById("darkToggle").onclick = () => {
+            document.body.classList.toggle("dark");
+        };
+
+        /* FAQ */
+        document.querySelectorAll(".faq-item").forEach(item => {
+            item.addEventListener("click", () => {
+                const answer = item.querySelector(".faq-answer");
+                answer.style.maxHeight = answer.style.maxHeight ? null : answer.scrollHeight + "px";
+            });
+        });
+
+        /* COUNTER */
+        const counters = document.querySelectorAll(".counter");
+        counters.forEach(counter => {
+            let update = () => {
+                let target = +counter.getAttribute("data-target");
+                let count = +counter.innerText;
+                let increment = target / 200;
+                if (count < target) {
+                    counter.innerText = Math.ceil(count + increment);
+                    setTimeout(update, 10);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+            update();
+        });
+
+        /* BACK TO TOP */
+        const topBtn = document.getElementById("topBtn");
+        window.onscroll = () => { topBtn.style.display = window.scrollY > 500 ? "block" : "none"; }
+        topBtn.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+
+        /* CREATE RECIPE FUNCTIONALITY */
+        const form = document.getElementById("recipeForm");
+        const grid = document.querySelector(".grid");
+
+        form.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const title = document.getElementById("recipeTitle").value;
+            const image = document.getElementById("recipeImage").value;
+            const category = document.getElementById("recipeCategory").value;
+            const description = document.getElementById("recipeDescription").value;
+
+            const newCard = document.createElement("div");
+            newCard.classList.add("card");
+            newCard.innerHTML = `
+    <img src="${image}">
+    <div class="card-content">
+      <h3>${title}</h3>
+      <p>${description}</p>
+      <small>${category}</small>
+    </div>
+  `;
+
+            grid.prepend(newCard);
+
+            // Trigger animation
+            setTimeout(() => newCard.classList.add("show"), 100);
+
+            form.reset();
+        });
+    </script>
+
+</body>
+
+</html>
